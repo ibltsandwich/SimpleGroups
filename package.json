@@ -1,0 +1,8 @@
+{
+  "name": "Marpipe",
+  "private": true,
+  "dependencies": {
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  }
+}

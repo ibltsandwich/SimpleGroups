@@ -10,7 +10,7 @@
 #
 
 class Group < ApplicationRecord
-  validates :name, :user_id, presence: true
+  validates :name, :owner_id, presence: true
 
   belongs_to :owner, class_name: "User"
   has_many :members, through: :memberships, source: :user

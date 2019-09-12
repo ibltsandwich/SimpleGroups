@@ -1,4 +1,8 @@
-class CommentsController < ApplicationController 
+class Api::CommentsController < ApplicationController 
+  def index
+
+  end
+
   def create
     @comment = Comment.new(comment_params)
 
@@ -9,9 +13,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  def index
-
-  end
 
   def show
     

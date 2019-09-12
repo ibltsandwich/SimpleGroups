@@ -1,4 +1,8 @@
-class GroupsController < ApplicationController
+class Api::GroupsController < ApplicationController
+  def index
+    @groups = Group.all
+  end
+
   def create
     @group = Group.new(group_params)
 
@@ -9,9 +13,6 @@ class GroupsController < ApplicationController
     end
   end
 
-  def index
-
-  end
 
   def show
     

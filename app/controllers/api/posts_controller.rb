@@ -1,4 +1,8 @@
-class PostsController < ApplicationController
+class Api::PostsController < ApplicationController
+  def index
+
+  end
+
   def create
     @post = Post.new(post_params)
 
@@ -7,10 +11,6 @@ class PostsController < ApplicationController
     else
 
     end
-  end
-
-  def index
-
   end
 
   def show

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :integer          not null, primary key
+#  username        :string           not null
+#  email           :string           not null
+#  password_digest :string           not null
+#  session_token   :string           not null
+#
+
 class User < ApplicationRecord
   validates :username, :email, :session_token, presence: true
   validates :username, :email, uniqueness: true
@@ -6,6 +17,10 @@ class User < ApplicationRecord
 
   attr_reader :password
 
+  has_many :owned_groups, foreign_key: "owner_id", class_name: "Group"
+  has_many :groups, through: :memberships
+  has_many :memberships
+  
   def self.generate_session_token
     SecureRandom::urlsafe_base64(16)
   end

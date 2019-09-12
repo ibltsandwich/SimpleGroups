@@ -20,6 +20,8 @@ class User < ApplicationRecord
   has_many :owned_groups, foreign_key: "owner_id", class_name: "Group"
   has_many :groups, through: :memberships
   has_many :memberships
+  has_many :posts
+  has_many :comments
   
   def self.generate_session_token
     SecureRandom::urlsafe_base64(16)

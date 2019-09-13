@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require("webpack");
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 let plugins = [];
 const devPlugins = [];
@@ -18,16 +19,39 @@ plugins = plugins.concat(
 
 module.exports = {
     context: __dirname,
-    entry: './frontend/',
+    entry: './frontend/application.js',
     output: {
         path: path.resolve(__dirname, 'app', 'assets', 'javascripts'),
         filename: 'bundle.js'
     },
-    module: {
-        rules: []
-    },
-    devtool: 'source-map',
     resolve: {
-        extensions: [".js", "*"]
-    }
+        extensions: ['*', '.js', '.vue', '.json'],
+        alias: {
+          'vue$': 'vue/dist/vue.esm.js'
+        },
+        
+    },
+    module: {
+        rules: [
+          {
+            test: /\.vue$/,
+            loader: 'vue-loader'
+          },
+          {
+            test: /\.css$/,
+            use: [
+              'vue-style-loader',
+              'css-loader'
+            ]
+          },
+          {
+            test: /\.js?$/,
+            loader: 'babel-loader'
+          }
+        ]
+      },
+      
+      plugins: [
+        new VueLoaderPlugin()
+      ]
 };

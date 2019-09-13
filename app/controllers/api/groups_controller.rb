@@ -1,6 +1,8 @@
 class Api::GroupsController < ApplicationController
   def index
     @groups = Group.all
+
+    render json: @groups
   end
 
   def create
@@ -15,7 +17,9 @@ class Api::GroupsController < ApplicationController
 
 
   def show
-    
+    @group = Group.find(params[:id])
+
+    render json: @group
   end
 
   def update

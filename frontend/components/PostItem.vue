@@ -16,6 +16,7 @@
   import axios from 'axios';
 
   export default {
+    name: 'PostItem',
     data() {
       return {
         groupId: this.$route.params.groupId,

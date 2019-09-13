@@ -16,6 +16,7 @@
 
 <script>
   export default {
+    name: 'TheHeader',
     data() {
       return {
         siteName: "Simple Groups"

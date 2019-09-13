@@ -5,6 +5,9 @@
         {{ group.name }}
       </router-link>
     </li>
+    <li>
+      <router-link to="/api/groups/new">Create new group</router-link>
+    </li>
   </ul>
 </template>
 
@@ -12,6 +15,7 @@
   import axios from 'axios';
   
   export default {
+    name: 'GroupsIndex',
     data() {
       return {
         groups: this.groups

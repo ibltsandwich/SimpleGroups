@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import HomePage from '../components/HomePage'
 import GroupsIndex from '../components/GroupsIndex'
 import GroupItem from '../components/GroupItem'
+import NewGroupForm from '../components/NewGroupForm'
 import PostItem from '../components/PostItem'
 
 Vue.use(Router)
@@ -14,6 +15,11 @@ export default new Router({
       path: '/api/groups',
       name: 'GroupsIndex',
       component: GroupsIndex
+    },
+    {
+      path: '/api/groups/new',
+      name: 'NewGroupForm',
+      component: NewGroupForm
     },
     {
       path: '/api/groups/:groupId',

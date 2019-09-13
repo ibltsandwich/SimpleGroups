@@ -15,6 +15,7 @@
   import axios from 'axios';
 
   export default {
+    name: 'GroupItem',
     data() {
       return {
         group: this.group || {},

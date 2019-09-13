@@ -8,18 +8,23 @@ class Api::GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
 
-    if @group.save
-
+    if @group.save!
+      render json: @group
     else
-
+      render json: @group.errors.full_messages, status: 400
     end
   end
 
 
   def show
-    @group = Group.find(params[:id])
+    @group = Group.includes(:posts).find(params[:id])
+    @posts = @group.posts
 
-    render json: @group
+    if @group
+      render json: {group: @group, posts: @posts}
+    else
+      render json: @group.errors.full_messages, status: 404
+    end
   end
 
   def update

@@ -14,7 +14,10 @@ class Api::PostsController < ApplicationController
   end
 
   def show
-    
+    @post = Post.includes(:comments).find(params[:id])
+    @comments = @post.comments
+
+    render json: {post: @post, comments: @comments}
   end
 
   def update

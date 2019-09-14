@@ -1,4 +1,6 @@
 class Api::SessionsController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def create 
     @user = User.find_by_credentials(
       params[:user][:username],
@@ -12,12 +14,21 @@ class Api::SessionsController < ApplicationController
     end
   end
 
+  def show
+    @user = current_user
+    if @user
+      render json: @user.username
+    else
+      return nil
+    end
+  end
+
   def destroy
     @user = current_user
     if @user
       logout
     else
-      render json: ['Nobody signed in'], status: 404
+      render json: ['No user signed in'], status: 404
     end
   end
 end

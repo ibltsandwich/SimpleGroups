@@ -1,4 +1,6 @@
 class Api::GroupsController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def index
     @groups = Group.all
 
@@ -7,6 +9,7 @@ class Api::GroupsController < ApplicationController
 
   def create
     @group = Group.new(group_params)
+    @group.owner_id = current_user.id
 
     if @group.save!
       render json: @group
@@ -38,6 +41,6 @@ class Api::GroupsController < ApplicationController
   private
 
   def group_params
-    params.require(:group).permit(:name, :owner_id)
+    params.require(:group).permit(:name)
   end
 end

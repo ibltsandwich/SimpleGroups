@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import HomePage from '../components/HomePage'
+import LoginForm from '../components/LoginForm'
+import RegisterForm from '../components/RegisterForm'
 import GroupsIndex from '../components/GroupsIndex'
 import GroupItem from '../components/GroupItem'
 import NewGroupForm from '../components/NewGroupForm'
@@ -11,6 +13,16 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/login',
+      name: 'LoginForm',
+      component: LoginForm
+    },
+    {
+      path: '/register',
+      name: 'RegisterForm',
+      component: RegisterForm
+    },
     {
       path: '/api/groups',
       name: 'GroupsIndex',

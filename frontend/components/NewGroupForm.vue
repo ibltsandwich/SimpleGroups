@@ -1,8 +1,8 @@
 <template>
   <div class="new-group-form-container">
     <form>
-      <input type="text">
-      </input>
+      <input v-model="groupName" type="text" placeholder="Enter A Group Name">
+      <input v-on:click="submitGroup(groupName)" type="submit">
     </form>
   </div>
 </template>
@@ -14,10 +14,15 @@
     name: 'NewGroupForm',
     data() {
       return {
-
+        groupName: ''
       }
     },
-
+    methods: {
+      submitGroup(groupName) {
+        const group = { name: groupName }
+        axios.post(`api/groups`, group)
+      }
+    }
 
   }
 </script>

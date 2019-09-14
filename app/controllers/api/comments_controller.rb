@@ -1,13 +1,18 @@
 class Api::CommentsController < ApplicationController 
+  skip_before_action :verify_authenticity_token
+
   def index
 
   end
 
   def create
     @comment = Comment.new(comment_params)
+    @comment.user_id = current_user.id
+    @comment.username = current_user.username
+    @comment.post_id = params[:post_id]
 
     if @comment.save
-
+      render json: @comment
     else
 
     end
@@ -28,7 +33,7 @@ class Api::CommentsController < ApplicationController
 
   private
 
-  def group_params
+  def comment_params
     params.require(:comment).permit(:body, :user_id, :post_id)
   end
 end

@@ -19,20 +19,20 @@
         password: ''
       }
     },
-    
+
     methods: {
       login(username, password) {
         const user = {user: { username, password }}
         axios.post('api/session', user)
           .then(response => {
-            this.$router.push({ name: 'HomePage' })
+            this.$router.back();
           })
       },
       demoLogin() {
-        const user = {user: { username: 'NewUser1', password: 'password' }}
+        const user = {user: { username: 'newuser', password: 'password' }}
         axios.post('api/session', user)
           .then(response => {
-            this.$router.push({ name: 'HomePage' })
+            this.$router.back();
           })
       }
     }

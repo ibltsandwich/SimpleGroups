@@ -22,19 +22,23 @@
       TheHeader
     },
 
+    mounted() {
+      axios.get('/api/session')
+        .then(response => {
+          this.username = response.data.username
+        })
+    },
+
     beforeUpdate() {
       axios.get('/api/session')
         .then(response => {
-          this.username = response.data
+          this.username = response.data.username
         })
     },
 
     methods: {
       updateSession() {
-        axios.get('/api/session')
-          .then(response => {
-            this.username = response.data
-          })
+        this.username = null
       }
     }
   }

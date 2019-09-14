@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_12_220734) do
+ActiveRecord::Schema.define(version: 2019_09_14_201623) do
 
   create_table "comments", force: :cascade do |t|
     t.text "body", null: false
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_09_12_220734) do
     t.integer "owner_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "owner_name", default: "", null: false
     t.index ["owner_id"], name: "index_groups_on_owner_id"
   end
 

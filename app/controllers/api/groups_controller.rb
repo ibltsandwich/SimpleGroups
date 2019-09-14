@@ -10,6 +10,7 @@ class Api::GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
     @group.owner_id = current_user.id
+    @group.owner_name = current_user.username
 
     if @group.save!
       render json: @group
@@ -20,11 +21,16 @@ class Api::GroupsController < ApplicationController
 
 
   def show
-    @group = Group.includes(:posts).find(params[:id])
+    @group = Group.includes(:posts, :members).find(params[:id])
     @posts = @group.posts
+    @members = {}
+
+    @group.members.each do |member|
+      @members[member.id] = member
+    end
 
     if @group
-      render json: {group: @group, posts: @posts}
+      render json: {group: @group, posts: @posts, members: @members}
     else
       render json: @group.errors.full_messages, status: 404
     end

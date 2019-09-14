@@ -7,7 +7,7 @@
 #  group_id :integer
 #
 
-class Memberships < ApplicationRecord
+class Membership < ApplicationRecord
   belongs_to :user
   belongs_to :group
 end

@@ -21,6 +21,9 @@
       submitGroup(groupName) {
         const group = { name: groupName }
         axios.post(`api/groups`, group)
+          .then(response => {
+            this.$router.push(`/api/groups/${response.data.id}`)
+          })
       }
     }
 

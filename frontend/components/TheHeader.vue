@@ -1,4 +1,4 @@
-<template v-bind:key="update">
+<template>
   <header>
     <section class="logo">
       <router-link to="/">

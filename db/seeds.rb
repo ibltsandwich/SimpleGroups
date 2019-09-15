@@ -24,6 +24,6 @@ post1 = Post.create({ title: "New user here", body: "Hi, I'm new here!", user_id
 post2 = Post.create({ title: "Project setup?", body: "I'm having some trouble setting up my project. anyone can help?", user_id: 3, group_id: 1, username: "92837512" })
 post3 = Post.create({ title: "Rails Info", body: "Ruby on Rails, or Rails, is a server-side web application framework written in Ruby under the MIT License. Rails is a model–view–controller (MVC) framework, providing default structures for a database, a web service, and web pages. It encourages and facilitates the use of web standards such as JSON or XML for data transfer, HTML, CSS and JavaScript for user interfacing. In addition to MVC, Rails emphasizes the use of other well-known software engineering patterns and paradigms, including convention over configuration (CoC), don't repeat yourself (DRY), and the active record pattern.", user_id: 4, group_id: 1, username: "nest0" })
 
-comment1 = Comment.create({ body: "I don't know how to edit my post", user_id: 1, post_id: 1, username: "NewUser" })
+comment1 = Comment.create({ body: "I don't know how to edit my post", user_id: 1, post_id: 1, username: "newuser" })
 comment2 = Comment.create({ body: "jst click edit duh", user_id: 2, post_id: 1, username: "idk123" })
 comment3 = Comment.create({ body: "wat u need", user_id: 2, post_id: 2, username: "idk123" })

@@ -2,18 +2,18 @@
   <div class="post-item-container">
     <h1 class="post-title">{{ post.title }}</h1>
     <h3 class="post-user">submitted by {{ post.username }}</h3>
+    <span class="comment-date">{{ new Date(post.created_at).toLocaleDateString() }}</span>
+    <span class="comment-time">{{ new Date(post.created_at).toLocaleTimeString() }}</span>
     <p class="post-body">{{ post.body }}</p>
 
     <h2 id="comments-header">Comments</h2>
     <ul class="comments-list">
-      <li v-for="comment in comments" v-bind:key="comment.id">
-          {{ comment.body }}
-      </li>
+      <CommentItem v-for="comment in comments" v-bind:key="comment.id" v-bind:comment="comment"/>
     </ul>
 
     <section v-if="this.username">
       <form v-on:submit="submitComment(groupId, post.id, commentBody)">
-        <input type="textarea" v-model="commentBody"/>
+        <textarea class="comment-input" v-model="commentBody" placeholder="Post A Comment"/>
         <input type="submit"/>
       </form>
     </section>
@@ -22,6 +22,7 @@
 
 <script>
   import axios from 'axios';
+  import CommentItem from './CommentItem';
 
   export default {
     name: 'PostItem',
@@ -34,6 +35,10 @@
         userId: this.userId,
         commentBody: ''
       }
+    },
+
+    components: {
+      CommentItem
     },
 
     created() {
@@ -56,11 +61,7 @@
         const comment = {body: commentBody}
         axios.post(`/api/groups/${groupId}/posts/${postId}/comments`, comment)
           .then(response => {
-            axios.get(`api/groups/${groupId}/posts/${postId}`)
-              .then(response => {
-                this.post = response.data.post,
-                this.comments = response.data.comments
-              })
+            this.comments.push(response.data)
             this.commentBody = ''
           })
       }
@@ -70,30 +71,38 @@
 
 <style scoped>
   .post-item-container {
+    font-size: 16px;
     padding: 50px;
   }
 
   .post-title {
     font-size: 30px;
-
+    margin: 5px 0;
   }
 
   .post-user {
-    font-size: 14px;
+    font-weight: 600;
   }
 
   .post-body {
     padding: 20px;
-    border: 1px dotted gray;
+    border: 1px dotted lightgray;
     margin: 10px 0;
   }
 
   #comments-header {
     font-size: 24px;
+    margin: 20px 0;
   }
 
   .comments-list {
-    margin: 10px 0;
 
+  }
+
+  .comment-input {
+    width: 400px;
+    height: 100px;
+    font-size: 14px;
+    padding: 10px;
   }
 </style>

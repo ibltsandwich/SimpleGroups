@@ -24,13 +24,17 @@ class Api::GroupsController < ApplicationController
     @group = Group.includes(:posts, :members).find(params[:id])
     @posts = @group.posts
     @members = {}
+    @joined = false
 
     @group.members.each do |member|
-      @members[member.id] = member
+      @members[member.id] = {id: member.id, username: member.username}
+      if member.id == current_user.id
+        @joined = true
+      end
     end
 
     if @group
-      render json: {group: @group, posts: @posts, members: @members}
+      render json: {group: @group, posts: @posts, members: @members, joined: @joined}
     else
       render json: @group.errors.full_messages, status: 404
     end

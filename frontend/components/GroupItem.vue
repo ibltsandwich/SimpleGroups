@@ -16,7 +16,7 @@
       </ul>
     </main>
     <section class="group-sidebar">
-      <section v-if="members[userId]" class="group-buttons">
+      <section v-if="joined" class="group-buttons">
         <button v-on:click="leaveGroup(group.id)">Leave Group</button>
         <button>Create a post</button>
       </section>
@@ -46,7 +46,8 @@
       return {
         group: this.group || {},
         posts: this.posts || [],
-        members: this.members || {},
+        members: this.members || [],
+        joined: this.joined,
         username: this.username,
         userId: this.userId,
       }
@@ -58,6 +59,7 @@
           this.group = response.data.group
           this.posts = response.data.posts
           this.members = response.data.members
+          this.joined = response.data.joined
         })
 
       axios.get('/api/session')
@@ -71,23 +73,15 @@
       joinGroup(groupId, userId) {
         axios.post(`/api/groups/${groupId}/memberships`)
           .then(response => {
-            axios.get(`/api/groups/${this.$route.params.groupId}`)
-              .then(response => {
-                this.group = response.data.group
-                this.posts = response.data.posts
-                this.members = response.data.members
-              })
+            this.members[response.data.id] = response.data
+            this.joined = true
           })
       },
       leaveGroup(groupId) {
         axios.delete(`api/groups/${groupId}/memberships/0`)
-          .then(() => {
-            axios.get(`/api/groups/${this.$route.params.groupId}`)
-              .then(response => {
-                this.group = response.data.group
-                this.posts = response.data.posts
-                this.members = response.data.members
-              })
+          .then(response => {
+            delete this.members[this.userId]
+            this.joined = false
           })
       }
     }

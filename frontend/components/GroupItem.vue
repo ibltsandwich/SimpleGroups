@@ -1,7 +1,9 @@
 <template>
   <div class="group-item-container">
+
     <main class="main-group-section">
       <h1 id="group-name">{{ group.name }}</h1>
+      <h2 id="group-posts-header">Group Posts</h2>
       <ul class="group-posts">
         <li v-for="post in posts" v-bind:key="post.id">
           <router-link :to="{ name: 'PostItem', params: { groupId: group.id, postId: post.id }}">
@@ -15,25 +17,33 @@
         </li>
       </ul>
     </main>
+
     <section class="group-sidebar">
-      <section v-if="joined" class="group-buttons">
+
+      <section v-if="this.$session.exists() && joined" class="group-buttons">
         <button v-on:click="leaveGroup(group.id)">Leave Group</button>
         <button>Create a post</button>
       </section>
-      <section v-else-if="group.owner_id === userId">
+
+      <section v-else-if="group.owner_id === this.$session.get('id')">
         <button>Create a post</button>
       </section>
-      <section v-else-if="userId" class="group-buttons">
-          <button v-on:click="joinGroup(group.id, userId)">Join Group</button>
+
+      <section v-else-if="this.$session.exists()" class="group-buttons">
+          <button v-on:click="joinGroup(group.id)">Join Group</button>
       </section>
-      <h2>Owner</h2>
-      <h3>{{ group.owner_name }}</h3>
+
+      <h2 id="owner-header">Owner</h2>
+      <h3 id="owner-name">{{ group.owner_name }}</h3>
+
+      <h3 id="members-header">Members</h3>
       <ul class="members-list">
         <li v-for="member in members" v-bind:key="member.id">
             {{ member.username }}
         </li>
       </ul>
     </section>
+
   </div>
 </template>
 
@@ -48,8 +58,6 @@
         posts: this.posts || [],
         members: this.members || [],
         joined: this.joined,
-        username: this.username,
-        userId: this.userId,
       }
     },
 
@@ -61,16 +69,10 @@
           this.members = response.data.members
           this.joined = response.data.joined
         })
-
-      axios.get('/api/session')
-        .then(response => {
-          this.userId = response.data.id
-          this.username = response.data.username
-        })
     },
 
     methods: {
-      joinGroup(groupId, userId) {
+      joinGroup(groupId) {
         axios.post(`/api/groups/${groupId}/memberships`)
           .then(response => {
             this.members[response.data.id] = response.data
@@ -78,9 +80,10 @@
           })
       },
       leaveGroup(groupId) {
+        const userId = this.$session.get('id')
         axios.delete(`api/groups/${groupId}/memberships/0`)
           .then(response => {
-            delete this.members[this.userId]
+            delete this.members[userId]
             this.joined = false
           })
       }
@@ -93,29 +96,48 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-top: 50px;
+    padding: 0 150px;
   }
+
   .main-group-section {
 
   }
-  h2 {
-    margin: 0;
+
+  #group-name {
+    font-size: 36px;
   }
-  h3 {
-    margin: 0;
+  
+  #group-posts-header {
+    font-size: 24px;
   }
+
   #submitted-user {
     font-weight: 700;
   }
+
   #group-name {
     margin: 0 0 20px 0;
   }
+
   .group-sidebar {
 
   }
+
   .members-list {
-    padding: 0;
+    padding: 5px;
     list-style: none;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .members-list li {
+    margin: 5px 0;
+  }
+
+  #members-header {
+    font-size: 18px;
+    margin: 10px 0;
   }
 </style>

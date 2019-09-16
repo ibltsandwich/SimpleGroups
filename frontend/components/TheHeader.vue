@@ -14,8 +14,8 @@
           <li v-on:click="logout" class="logout-button">Log out</li>
         </section>
         <section v-else>
-          <li><button v-on:click="showLogin">Log In</button></li>
-          <li><button v-on:click="showRegister">Register</button></li>
+          <li><router-link :to="'/api/login'" v-on:click="showLogin">Log In</router-link></li>
+          <li><router-link :to="'/api/register'" v-on:click="showRegister">Register</router-link></li>
         </section>
         <SessionForm v-if="login" type="login" v-on:update="update"/>
         <SessionForm v-else-if="register" type="register" v-on:update="update"/>
@@ -49,6 +49,7 @@
           .then(response => {
             this.$session.destroy()
             this.sessionExists = this.$session.exists()
+            this.$router.push('/')
           })
       },
       showLogin() {

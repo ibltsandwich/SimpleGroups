@@ -24,11 +24,21 @@ class Api::CommentsController < ApplicationController
   end
 
   def update
+    @comment = Comment.find(params[:id])
+    @comment.body = params[:comment][:body]
 
+    if @comment.save
+      render json: @comment
+    end
   end
 
   def destroy
-
+    @comment = Comment.find(params[:id])
+    
+    if @comment.destroy
+      @post = Post.includes(:comments).find(params[:post_id])
+      render json: @post.comments
+    end
   end
 
   private

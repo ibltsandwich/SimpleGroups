@@ -28,7 +28,7 @@ class Api::GroupsController < ApplicationController
 
     @group.members.each do |member|
       @members[member.id] = {id: member.id, username: member.username}
-      if member.id == current_user.id
+      if current_user && member.id == current_user.id
         @joined = true
       end
     end

@@ -8,10 +8,10 @@
 
     <h2 id="comments-header">Comments</h2>
     <ul class="comments-list">
-      <CommentItem v-for="comment in comments" v-bind:key="comment.id" v-bind:comment="comment"/>
+      <CommentItem v-for="comment in comments" v-bind:key="comment.id" v-bind:comment="comment" v-on:delete-comment="deleteComment(comment.id)"/>
     </ul>
 
-    <section v-if="this.username">
+    <section v-if="this.$session.exists()">
       <form v-on:submit="submitComment(groupId, post.id, commentBody)">
         <textarea class="comment-input" v-model="commentBody" placeholder="Post A Comment"/>
         <input type="submit"/>
@@ -31,8 +31,6 @@
         groupId: this.$route.params.groupId,
         post: this.post || {},
         comments: this.comments || [],
-        username: this.username,
-        userId: this.userId,
         commentBody: ''
       }
     },
@@ -48,12 +46,6 @@
           this.post = response.data.post,
           this.comments = response.data.comments
         })
-
-      axios.get('/api/session')
-        .then(response => {
-          this.username = response.data.username
-          this.userId = response.data.userId
-        })
     },
 
     methods: {
@@ -64,7 +56,15 @@
             this.comments.push(response.data)
             this.commentBody = ''
           })
-      }
+      },
+      deleteComment(commentId) {
+        const groupId = this.$route.params.groupId
+        const postId = this.$route.params.postId
+        axios.delete(`/api/groups/${groupId}/posts/${postId}/comments/${commentId}`)
+          .then(response => {
+            this.comments = response.data
+          })
+      },
     }
   }
 </script>

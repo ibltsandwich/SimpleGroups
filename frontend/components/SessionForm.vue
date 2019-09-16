@@ -16,19 +16,19 @@
   import axios from 'axios';
 
   export default {
-    props: ['type'],
     data() {
       return {
         username: '',
         email: '',
         password: '',
         password2: '',
+        type: this.$router.history.current.path.slice(5)
       }
     },
 
     methods: {
       handleSubmit(username, email, password, password2, type) {
-        if (type === 'login') {
+        if (this.type === 'login') {
           const user = {user: { username, password }}
           axios.post('/api/session', user)
             .then(response => {
@@ -37,6 +37,8 @@
                 this.$session.set('id', response.data.id)
                 this.$session.set('username', response.data.username)
               }
+              this.$emit('update')
+              this.$router.push(this.$router.back())
             })
         } else {
           if (password === password2) {
@@ -49,6 +51,7 @@
                   this.$session.set('username', response.data.username)
                 }
                 this.$emit('update')
+                this.$router.back()
               })
           } else {
             // throw error message
@@ -65,6 +68,7 @@
               this.$session.set('username', response.data.username)
             }
             this.$emit('update')
+            this.$router.back()
           })
       }
     }

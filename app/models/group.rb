@@ -12,6 +12,7 @@
 
 class Group < ApplicationRecord
   validates :name, :owner_id, presence: true
+  validates :name, uniqueness: true
 
   belongs_to :owner, class_name: "User"
   has_many :memberships

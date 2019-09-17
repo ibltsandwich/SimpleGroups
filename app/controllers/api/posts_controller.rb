@@ -7,9 +7,12 @@ class Api::PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+    @post.user_id = current_user.id
+    @post.username = current_user.username
+    @post.group_id = params[:group_id]
 
     if @post.save
-
+      render json: @post
     else
 
     end
@@ -23,11 +26,18 @@ class Api::PostsController < ApplicationController
   end
 
   def update
+    @post = Post.find(params[:id])
+    @post.body = params[:post][:body]
 
+    if @post.save
+      render json: @post
+    end
   end
 
   def destroy
+    @post = Post.find(params[:id])
 
+    @post.destroy
   end
 
   private

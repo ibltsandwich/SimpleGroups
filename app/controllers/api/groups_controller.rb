@@ -12,7 +12,7 @@ class Api::GroupsController < ApplicationController
     @group.owner_id = current_user.id
     @group.owner_name = current_user.username
 
-    if @group.save!
+    if @group.save
       render json: @group
     else
       render json: @group.errors.full_messages, status: 400
@@ -23,14 +23,18 @@ class Api::GroupsController < ApplicationController
   def show
     @group = Group.includes(:posts, :members).find(params[:id])
     @posts = @group.posts
-    @members = {}
+    @members = []
     @joined = false
 
     @group.members.each do |member|
-      @members[member.id] = {id: member.id, username: member.username}
+      @members << {id: member.id, username: member.username}
       if current_user && member.id == current_user.id
         @joined = true
       end
+    end
+
+    if current_user && @group.owner_id == current_user.id
+      @joined = true
     end
 
     if @group

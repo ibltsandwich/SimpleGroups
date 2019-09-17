@@ -1,7 +1,7 @@
 <template>
   <div id='app'>
-    <TheHeader v-bind:sessionExists="sessionExists"/>
-    <router-view/>
+    <TheHeader v-bind:sessionExists="sessionExists" v-bind:username="username" v-on:session-update="sessionUpdate"/>
+    <router-view v-on:session-update="sessionUpdate"/>
   </div>
 </template>
 
@@ -14,12 +14,20 @@
 
     data() {
       return {
-        sessionExists: this.$session.exists()
+        sessionExists: this.$session.exists(),
+        username: this.$session.get('username')
       }
     },
 
     components: {
       TheHeader
+    },
+
+    methods: {
+      sessionUpdate() {
+        this.sessionExists = this.$session.exists()
+        this.username = this.$session.get('username')
+      }
     }
   }
 </script>

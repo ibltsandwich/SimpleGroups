@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="header-container">
     <section class="logo">
       <router-link to="/">
         {{ siteName }}
@@ -7,18 +7,16 @@
     </section>
 
     <section class="nav-links">
-      <ul>
+      <ul class="nav-links-list flex">
         <li><router-link to="/api/groups">Groups</router-link></li>
-        <section v-if="sessionExists">
-          <li>{{ this.$session.get('username') }}</li>
+        <section v-if="this.$attrs.sessionExists" class="flex session-links">
+          <li>{{ this.$attrs.username }}</li>
           <li v-on:click="logout" class="logout-button">Log out</li>
         </section>
-        <section v-else>
+        <section v-else class="flex session-links">
           <li><router-link :to="'/api/login'" v-on:click="showLogin">Log In</router-link></li>
           <li><router-link :to="'/api/register'" v-on:click="showRegister">Register</router-link></li>
         </section>
-        <SessionForm v-if="login" type="login" v-on:update="update"/>
-        <SessionForm v-else-if="register" type="register" v-on:update="update"/>
       </ul>
     </section>
   </header>
@@ -26,21 +24,16 @@
 
 <script>
   import axios from 'axios';
-  import SessionForm from './SessionForm';
 
   export default {
     name: 'TheHeader',
+    props: ['session-exists, username'],
     data() {
       return {
         siteName: "Simple Groups",
-        sessionExists: this.$session.exists(),
         login: false,
         register: false
       }
-    },
-
-    components: {
-      SessionForm
     },
 
     methods: {
@@ -48,7 +41,7 @@
         axios.delete('api/session')
           .then(response => {
             this.$session.destroy()
-            this.sessionExists = this.$session.exists()
+            this.$emit('session-update')
             this.$router.push('/')
           })
       },
@@ -70,15 +63,58 @@
 </script>
 
 <style scoped>
+  @import url('https://fonts.googleapis.com/css?family=Berkshire+Swash&display=swap');
+
   header {
     height: 100px;
     width: 100%;
-    background: lightgray;
+    background: #1551a5;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
+
   .logo {
-    font-size: 16px;
+    font-family: 'Berkshire Swash';
+    font-size: 24px;
+    margin: auto 40px;
   }
+
+  .logo a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    width: 25%;
+    margin: auto 30px;
+    padding: 20px;
+  }
+
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+
+
+
   .logout-button:hover {
     cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .session-links {
+    width: 60%;
   }
 </style>

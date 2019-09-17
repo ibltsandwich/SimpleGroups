@@ -33,10 +33,18 @@ class Api::MembershipsController < ApplicationController
   end
 
   def destroy
-    @membership = Membership.includes(:group).find_by(user_id: current_user.id, group_id: params[:group_id])
-    @group = @membership.group
+    @membership = Membership.find_by(user_id: current_user.id, group_id: params[:group_id])
 
-    @membership.destroy
+   if @membership.destroy
+    @members = []
+    @group = Group.includes(:members).find(params[:group_id])
+
+    @group.members.each do |member|
+      @members << {id: member.id, username: member.username}
+    end
+
+    render json: @members
+   end
   end
 
 end

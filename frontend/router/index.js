@@ -2,11 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import HomePage from '../components/HomePage'
-import SessionForm from '../components/SessionForm'
+import LoginForm from '../components/LoginForm'
+import RegisterForm from '../components/RegisterForm'
 import GroupsIndex from '../components/GroupsIndex'
 import GroupItem from '../components/GroupItem'
 import NewGroupForm from '../components/NewGroupForm'
 import PostItem from '../components/PostItem'
+import PostForm from '../components/PostForm'
 
 Vue.use(Router)
 
@@ -14,13 +16,13 @@ export default new Router({
   routes: [
     {
       path: '/api/login',
-      name: 'SessionForm',
-      component: SessionForm
+      name: 'LoginForm',
+      component: LoginForm
     },
     {
       path: '/api/register',
-      name: 'SessionForm',
-      component: SessionForm
+      name: 'RegisterForm',
+      component: RegisterForm
     },
     {
       path: '/api/groups',
@@ -36,6 +38,12 @@ export default new Router({
       path: '/api/groups/:groupId',
       name: 'GroupItem',
       component: GroupItem,
+      props: true
+    },
+    {
+      path: '/api/groups/:groupId/posts/new',
+      name: 'PostForm',
+      component: PostForm,
       props: true
     },
     {

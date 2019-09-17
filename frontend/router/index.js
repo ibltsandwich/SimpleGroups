@@ -9,6 +9,7 @@ import GroupItem from '../components/GroupItem'
 import NewGroupForm from '../components/NewGroupForm'
 import PostItem from '../components/PostItem'
 import PostForm from '../components/PostForm'
+import UserShow from '../components/UserShow'
 
 Vue.use(Router)
 
@@ -50,6 +51,12 @@ export default new Router({
       path: '/api/groups/:groupId/posts/:postId',
       name: 'PostItem',
       component: PostItem,
+      props: true
+    },
+    {
+      path: '/api/users/:userId',
+      name: 'UserShow',
+      component: UserShow,
       props: true
     },
     {

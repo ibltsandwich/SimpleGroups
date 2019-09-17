@@ -10,12 +10,24 @@
       <ul class="nav-links-list flex">
         <li><router-link to="/api/groups">Groups</router-link></li>
         <section v-if="this.$attrs.sessionExists" class="flex session-links">
-          <li>{{ this.$attrs.username }}</li>
+          <li>
+            <router-link :to="`/api/users/${this.$session.get('id')}`">
+              {{ this.$attrs.username }}
+            </router-link>
+          </li>
           <li v-on:click="logout" class="logout-button">Log out</li>
         </section>
         <section v-else class="flex session-links">
-          <li><router-link :to="'/api/login'" v-on:click="showLogin">Log In</router-link></li>
-          <li><router-link :to="'/api/register'" v-on:click="showRegister">Register</router-link></li>
+          <li>
+            <router-link :to="'/api/login'" v-on:click="showLogin">
+              Log In
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="'/api/register'" v-on:click="showRegister">
+              Register
+            </router-link>
+          </li>
         </section>
       </ul>
     </section>

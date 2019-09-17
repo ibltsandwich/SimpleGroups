@@ -49,7 +49,9 @@ class Api::GroupsController < ApplicationController
   end
 
   def destroy
+    @group = Group.find(params[:id])
 
+    @group.destroy
   end
 
   private

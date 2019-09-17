@@ -15,16 +15,6 @@ class Api::SessionsController < ApplicationController
     end
   end
 
-  def show
-    @user = current_user
-
-    if @user
-      render json: { id: @user.id, username: @user.username }
-    else
-      return nil
-    end
-  end
-
   def destroy
     @user = current_user
     if @user

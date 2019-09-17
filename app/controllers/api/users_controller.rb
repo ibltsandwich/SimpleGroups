@@ -12,6 +12,22 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def show 
+    @user = User.includes(:groups, :owned_groups).find(params[:id])
+    @groups = @user.groups
+    @owned_groups = @user.owned_groups
+
+    if @user
+      render json: {
+        id: @user.id, 
+        username: @user.username, 
+        groups: @groups, 
+        owned_groups: @owned_groups
+      }
+    end
+
+  end
+
   private
 
   def user_params

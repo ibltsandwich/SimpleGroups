@@ -23,15 +23,20 @@
     </main>
 
     <section class="group-sidebar">
-
-      <section v-if="this.$session.exists() && joined" class="group-buttons">
-        <button class="button" v-on:click="leaveGroup(group.id)">Leave Group</button>
+      <section v-if="this.$session.exists() && group.owner_id === this.$session.get('id')" class="group-buttons">
+        <button class="button" id="delete-button" v-on:click="deleteGroup">Delete Group</button>
+        <section v-if="deleting" id="delete-confirm">
+          <h3>Are you sure?</h3>
+          <span v-on:click="submitDelete">Yes</span>
+          <span v-on:click="cancelDelete">No</span>
+        </section>
         <router-link class="button" :to="{ name: 'PostForm', params: { groupId: group.id }}">
           Create a post
         </router-link>
       </section>
 
-      <section v-else-if="this.$session.exists() && group.owner_id === this.$session.get('id')" class="group-buttons">
+      <section v-else-if="this.$session.exists() && joined" class="group-buttons">
+        <button class="button" v-on:click="leaveGroup(group.id)">Leave Group</button>
         <router-link class="button" :to="{ name: 'PostForm', params: { groupId: group.id }}">
           Create a post
         </router-link>
@@ -46,12 +51,18 @@
       </section>
 
       <h2 class="header" id="owner-header">Group Owner</h2>
-      <h3 id="owner-name">{{ group.owner_name }}</h3>
+      <h3 class="user" id="owner-name" v-if="this.group.id">
+        <router-link :to="{ name: 'UserShow', params: { userId: group.owner_id }}">
+          {{ group.owner_name }}
+        </router-link>
+      </h3>
 
       <h3 class="header" id="members-header">Group Members</h3>
-      <ul class="members-list">
-        <li v-for="member in members" v-bind:key="member.id">
+      <ul class="members-list" v-if="members.length > 0">
+        <li class="user" v-for="member in members" v-bind:key="member.id">
+          <router-link :to="{ name: 'UserShow', params: { userId: member.id }}">
             {{ member.username }}
+          </router-link>
         </li>
       </ul>
     </section>
@@ -70,6 +81,7 @@
         posts: this.posts || [],
         members: this.members || [],
         joined: this.joined,
+        deleting: false
       }
     },
 
@@ -98,6 +110,18 @@
             this.members = response.data
             this.joined = false
           })
+      },
+      deleteGroup() {
+        this.deleting = true
+      },
+      submitDelete() {
+        axios.delete(`/api/groups/${this.group.id})`)
+          .then(response => {
+            this.$router.push('/api/groups')
+          })
+      },
+      cancelDelete() {
+        this.deleting = false
       }
     }
   }
@@ -111,10 +135,6 @@
     justify-content: space-around;
     margin: 50px 0;
     padding: 0 150px;
-  }
-
-  .main-group-section {
-
   }
 
   #group-name {
@@ -183,11 +203,41 @@
   .group-buttons button:hover {
     cursor: pointer;
   }
+
+  #delete-button {
+    background: #af0202;
+  }
+
+  #delete-confirm {
+    text-align: center;
+  }
+
+  #delete-confirm h3 {
+    margin-bottom: 5px;
+  }
+
+  #delete-confirm span {
+    margin: 0 15px;
+  }
+
+  #delete-confirm span:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
   
   #owner-name {
     padding: 5px;
     margin-top: 5px;
     font-weight: 500;
+  }
+
+  .user a {
+    color: black;
+    text-decoration: none;
+  }
+
+  .user a:hover {
+    text-decoration: underline;
   }
 
   .members-list {
@@ -197,7 +247,7 @@
 
   .members-list li {
     margin: 5px 0;
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .header {

@@ -7,7 +7,7 @@ Vue.use(VueSession)
 
 document.addEventListener('DOMContentLoaded', () => {
   new Vue({
-    el: '#app',
+    el: '#root',
     router: Router,
     components: { App },
     template: '<App/>'

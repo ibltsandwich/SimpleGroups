@@ -11,9 +11,8 @@
     "webpack-cli": "^3.1.2"
   },
   "scripts": {
-    "webpack": "webpack --watch --mode=development",
-    "postinstall": "webpack",
-    "heroku-postbuild": "webpack"
+    "start": "webpack --watch --mode=development",
+    "postinstall": "webpack"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

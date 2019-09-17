@@ -49,9 +49,9 @@ module.exports = {
             loader: 'babel-loader'
           }
         ]
-      },
+    },
       
-      plugins: [
-        new VueLoaderPlugin(),
-      ]
+    plugins: [
+      new VueLoaderPlugin(),
+    ]
 };

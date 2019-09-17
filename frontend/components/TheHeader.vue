@@ -87,9 +87,7 @@
   }
 
   .nav-links {
-    width: 25%;
     margin: auto 30px;
-    padding: 20px;
   }
 
   .nav-links a {
@@ -101,8 +99,6 @@
     text-decoration: underline;
   }
 
-
-
   .logout-button:hover {
     cursor: pointer;
     text-decoration: underline;
@@ -111,10 +107,9 @@
   .flex {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
   }
 
-  .session-links {
-    width: 60%;
+  .flex li {
+    margin: 20px;
   }
 </style>

@@ -143,7 +143,7 @@
 <style scoped>
   .post-item-container {
     font-size: 16px;
-    margin: 50px;
+    margin: 50px 200px;
   }
 
   .post-item {

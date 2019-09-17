@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2019_09_17_011519) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "comments", force: :cascade do |t|
     t.text "body", null: false
     t.integer "user_id", null: false
@@ -25,7 +28,7 @@ ActiveRecord::Schema.define(version: 2019_09_17_011519) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "owner_id", null: false
+    t.bigint "owner_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "owner_name", default: "", null: false
@@ -33,8 +36,8 @@ ActiveRecord::Schema.define(version: 2019_09_17_011519) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "group_id"
+    t.bigint "user_id"
+    t.bigint "group_id"
     t.index ["group_id"], name: "index_memberships_on_group_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end

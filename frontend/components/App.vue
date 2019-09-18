@@ -23,6 +23,11 @@
       TheHeader
     },
 
+    beforeDestroy() {
+      this.$session.destroy()
+      axios.delete('/api/session')
+    },
+
     methods: {
       sessionUpdate() {
         this.sessionExists = this.$session.exists()

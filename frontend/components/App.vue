@@ -23,9 +23,8 @@
       TheHeader
     },
 
-    beforeDestroy() {
-      this.$session.destroy()
-      axios.delete('/api/session')
+    beforeCreate() {
+      this.$session.start()
     },
 
     methods: {

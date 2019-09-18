@@ -1,24 +1,12 @@
-# README
+# SimpleGroups
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[Live Link]('https://simple-groups.herokuapp.com/#/')
 
-Things you may want to cover:
+## Tech Used
+Ruby on Rails  
+Vue.js
 
-* Ruby version
+## Description
 
-* System dependencies
+Simple app that allows users to create and join groups, make posts in groups, and leave comments on posts.  
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

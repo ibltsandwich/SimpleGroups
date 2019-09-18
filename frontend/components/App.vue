@@ -24,7 +24,18 @@
     },
 
     beforeCreate() {
-      this.$session.start()
+      axios.get('/api/session')
+        .then(response => {
+          if (response.data.exists === true) {
+            this.$session.start()
+            this.$session.set('id', response.data.id)
+            this.$session.set('username', response.data.username)
+            this.sessionExists = this.$session.exists()
+            this.username = this.$session.get('username')
+          } else {
+            this.$session.destroy()
+          }
+        })
     },
 
     methods: {

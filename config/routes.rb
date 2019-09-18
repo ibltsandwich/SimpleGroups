@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :users, only: [:create, :show] do
       resources :memberships
     end
-    resource :session, only: [:create, :destroy]
+    resource :session, only: [:create, :destroy, :show]
     resources :groups do
       resources :memberships
       resources :posts do
